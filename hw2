@@ -1,0 +1,67 @@
+use hwsales;
+
+-- 1 : 
+-- Написать запрос, который выберет марку, год и прайс для каждой продажи(каждой sale_id)
+
+SELECT
+  p.productname,
+  s.year,
+  s.price
+FROM Sales s
+JOIN Product p ON s.productid = p.productid;
+
+
+-- Task 2 :
+-- Вывести количесто всего проданного по продукт id
+-- Вид результата :
+
+SELECT
+  productid,
+  SUM(quantity) AS totalquantity
+FROM
+  Sales
+GROUP BY
+  1;
+  
+-- Task 3 :
+-- Количесто всего проданного по продукт id каждый год 
+SELECT
+  productid,
+  year,
+  SUM(quantity) AS totalquantity
+FROM
+  Sales
+GROUP BY
+  1, 2;
+  
+  
+--   Task 4:
+-- Количесто всего проданного в каждый год по продукт ид
+SELECT
+  year,
+  productid,
+  SUM(quantity) AS totalquantity
+FROM
+  Sales
+GROUP BY
+  1, 2;
+
+
+-- Task 5 
+-- Вывести для каждого продукта его первую продажу
+
+
+select 
+product_id, 
+year, 
+quantity, 
+price 
+from Sales 
+where sale_id in (
+				SELECT
+				  MIN(s.sale_id)
+				FROM
+				  Sales s
+				GROUP BY
+				  product_id
+				);
